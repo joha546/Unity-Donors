@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Company>ErrorBrothers2.0</Company>
+    <Copyright>2024</Copyright>
+    <RepositoryUrl>https://github.com/joha546/Unity-Donors</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>
