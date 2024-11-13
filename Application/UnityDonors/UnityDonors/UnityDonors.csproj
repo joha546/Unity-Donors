@@ -158,6 +158,8 @@
     <Content Include="Content\Template\images\highlight_5.png" />
     <Content Include="Content\Template\images\home_1_slider_1.jpg" />
     <Content Include="Content\Template\images\home_1_slider_2.jpg" />
+    <Content Include="Content\Template\images\imtiaz.jpg" />
+    <Content Include="Content\Template\images\joha.jpg" />
     <Content Include="Content\Template\images\loader.gif" />
     <Content Include="Content\Template\images\logo-footer.png" />
     <Content Include="Content\Template\images\logo.png" />
@@ -177,6 +179,7 @@
     <Content Include="Content\Template\images\logo_7.png" />
     <Content Include="Content\Template\images\logo_8.jpg" />
     <Content Include="Content\Template\images\logo_8.png" />
+    <Content Include="Content\Template\images\mikail.jpg" />
     <Content Include="Content\Template\images\next.gif" />
     <Content Include="Content\Template\images\pattern_1.png" />
     <Content Include="Content\Template\images\preload-circle.png" />
@@ -263,6 +266,7 @@
     <Content Include="Content\Template\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\Template\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\Template\fonts\FontAwesome.otf" />
+    <Content Include="Content\Template\images\mikail2.heic" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
