@@ -25,6 +25,15 @@
         <AssociationConnector Association="UnityDonorDbModel.FK_SeekerTable_CityTable" ManuallyRouted="false" />
         <AssociationConnector Association="UnityDonorDbModel.FK_SeekerTable_GenderTable" ManuallyRouted="false" />
         <AssociationConnector Association="UnityDonorDbModel.FK_RequestTable_RequestTypeTable" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="UnityDonorDbModel.AccountStatusTable" Width="1.5" PointX="8.375" PointY="13.875" />
+        <EntityTypeShape EntityType="UnityDonorDbModel.UserTable" Width="1.5" PointX="10.625" PointY="10" />
+        <EntityTypeShape EntityType="UnityDonorDbModel.UserTypeTable" Width="1.5" PointX="8.375" PointY="10.875" />
+        <AssociationConnector Association="UnityDonorDbModel.FK_UserTable_AccountStatusTable" />
+        <AssociationConnector Association="UnityDonorDbModel.FK_BloodBankTable_UserTable" />
+        <AssociationConnector Association="UnityDonorDbModel.FK_DonorTable_UserTable" />
+        <AssociationConnector Association="UnityDonorDbModel.FK_HospitalTable_UserTable" />
+        <AssociationConnector Association="UnityDonorDbModel.FK_SeekerTable_UserTable" />
+        <AssociationConnector Association="UnityDonorDbModel.FK_UserTable_UserTypeTable" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

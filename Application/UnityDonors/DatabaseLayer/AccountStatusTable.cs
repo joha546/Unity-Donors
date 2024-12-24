@@ -12,27 +12,18 @@ namespace DatabaseLayer
     using System;
     using System.Collections.Generic;
     
-    public partial class BloodBankTable
+    public partial class AccountStatusTable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public BloodBankTable()
+        public AccountStatusTable()
         {
-            this.BloodBankStockTables = new HashSet<BloodBankStockTable>();
+            this.UserTables = new HashSet<UserTable>();
         }
     
-        public int BloodBankID { get; set; }
-        public string BloodBankName { get; set; }
-        public string Address { get; set; }
-        public string PhoneNo { get; set; }
-        public string Location { get; set; }
-        public string Website { get; set; }
-        public string Email { get; set; }
-        public int CityID { get; set; }
-        public int UserID { get; set; }
+        public int AccountStatusID { get; set; }
+        public string AccountStatus { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BloodBankStockTable> BloodBankStockTables { get; set; }
-        public virtual CityTable CityTable { get; set; }
-        public virtual UserTable UserTable { get; set; }
+        public virtual ICollection<UserTable> UserTables { get; set; }
     }
 }

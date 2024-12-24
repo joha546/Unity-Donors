@@ -23,9 +23,11 @@ namespace DatabaseLayer
         public string CNIC { get; set; }
         public int GenderID { get; set; }
         public System.DateTime RegistrationDate { get; set; }
+        public int UserID { get; set; }
     
         public virtual BloodGroupsTable BloodGroupsTable { get; set; }
         public virtual CityTable CityTable { get; set; }
         public virtual GenderTable GenderTable { get; set; }
+        public virtual UserTable UserTable { get; set; }
     }
 }
