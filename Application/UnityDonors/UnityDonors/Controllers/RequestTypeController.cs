@@ -63,7 +63,7 @@ namespace UnityDonors.Controllers
             }
             var requesttypemv = new RequestTypeMV();
             requesttypemv.RequestTypeID = requesttype.RequestTypeID; 
-            requesttype.RequestType = requesttypemv.RequestType;
+            requesttypemv.RequestType = requesttype.RequestType;
             return View(requesttypemv);
         }
 
@@ -97,7 +97,7 @@ namespace UnityDonors.Controllers
             }
             var requesttypemv = new RequestTypeMV();
             requesttypemv.RequestTypeID = requesttype.RequestTypeID;
-            requesttype.RequestType = requesttypemv.RequestType;
+            requesttypemv.RequestType = requesttypemv.RequestType;
             return View(requesttypemv);
         }
 
