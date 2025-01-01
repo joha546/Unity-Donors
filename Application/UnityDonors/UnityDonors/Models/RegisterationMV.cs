@@ -7,7 +7,17 @@ namespace UnityDonors.Models
 {
     public class RegisterationMV
     {
+
+        public RegisterationMV() 
+        { 
+            Seeker = new SeekerMV();
+            Hospital = new HospitalMV();
+            BloodBank = new BloodBankMV();
+            Donor = new DonorMV();
+            User = new UserMV();
+        }
         // Declaring as property.
+        public int UserTypeID {  get; set; }
         public SeekerMV Seeker { get; set; }
         public HospitalMV Hospital { get; set; }
 
