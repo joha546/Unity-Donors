@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DatabaseLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,10 +10,15 @@ namespace UnityDonors.Controllers
 {
     public class RegistrationController : Controller
     {
+        Unity_DonorEntities DB = new Unity_DonorEntities();
+
+        static RegisterationMV registerationmv;
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SelectUser(RegisterationMV registerationMV)
         {
+            registerationmv = registerationMV;
             if (registerationMV.UserTypeID == 2)
             {
                 return RedirectToAction("DonorUser");
@@ -34,51 +40,90 @@ namespace UnityDonors.Controllers
             {
                 return RedirectToAction("MainHome", "Home");
             }
-            var registration = new RegisterationMV();
-            return View(registration);
+           
         }
 
         public ActionResult HospitalUser()
         {
-            return View();
+            ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", registerationmv.CityID);
+            return View(registerationmv);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult HospitalUser(HospitalMV hospitalMV)
+        public ActionResult HospitalUser(RegisterationMV registerationMV)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var checktitle = DB.HospitalTables.Where(h => h.FullName == registerationMV.Hospital.FullName.Trim()).FirstOrDefault();
+                if (checktitle == null)
+                {
+                    var user = new UserTable();
+                    user.UserName = registerationMV.User.UserName;
+                    user.Password = registerationMV.User.Password;
+                    user.EmailAddress = registerationMV.User.EmailAddress;
+                    user.AccountStatusID = 2;
+                    user.UserTypeID = registerationMV.UserTypeID;
+                    user.Description = registerationMV.User.Description;
+
+                    DB.UserTables.Add(user);
+
+                    var hospital = new HospitalTable();
+
+                    hospital.FullName = registerationMV.Hospital.FullName;
+                    hospital.Address = registerationMV.Hospital.Address;
+                    hospital.PhoneNo = registerationMV.Hospital.PhoneNo;
+                    hospital.Website = registerationMV.Hospital.Website;
+                    hospital.Email = registerationMV.Hospital.Email;
+                    hospital.Location = registerationMV.Hospital.Address;
+                    hospital.CityID = registerationMV.CityID;
+                    hospital.UserID = user.UserID;
+
+                    DB.HospitalTables.Add(hospital);
+                    DB.SaveChanges();
+                    return RedirectToAction("MainHome", "Home");
+    }
+            }
+            ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", registerationMV.CityID);
+            return View(registerationMV);
         }
 
         public ActionResult DonorUser()
         {
-            return View();
+            ViewBag.UserTypeID = new SelectList(DB.UserTypeTables.Where(ut => ut.UserTypeID > 1).ToList(), "UserTypeID", "UserType", registerationmv.UserTypeID);
+            ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", registerationmv.CityID);
+            return View(registerationmv);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DonorUser(DonorMV donorMV)
+        public ActionResult DonorUser(RegisterationMV registerationMV)
         {
+            ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", registerationmv.CityID);
             return View();
         }
 
         public ActionResult BloodBankUser()
         {
-            return View();
+            ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", registerationmv.CityID);
+            return View(registerationmv);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult BloodBankUser(BloodBankMV bloodbankMV)
+        public ActionResult BloodBankUser(RegisterationMV registerationMV)
         {
+            ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", registerationmv.CityID);
             return View();
         }
 
         public ActionResult SeekerUser()
         {
-            return View();
+            ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", registerationmv.CityID);
+            return View(registerationmv);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SeekerUser(SeekerMV seekerMV)
+        public ActionResult SeekerUser(RegisterationMV registerationMV)
         {
+            ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", registerationmv.CityID);
             return View();
         }
     }
