@@ -170,7 +170,7 @@ namespace UnityDonors.Controllers
 
             }
             ViewBag.BloodGroupID = new SelectList(DB.BloodGroupsTables.ToList(), "BloodGroupID", "BloodGroup", registerationMV.BloodGroupID);
-
+            ViewBag.GenderID = new SelectList(DB.GenderTables.ToList(), "GenderID", "Gender", registerationMV.GenderID);
             ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", registerationMV.CityID);
             return View(registerationMV);
         }
@@ -244,15 +244,87 @@ namespace UnityDonors.Controllers
 
         public ActionResult SeekerUser()
         {
-            ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", registerationmv.CityID);
+            ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", "0");
+            ViewBag.BloodGroupID = new SelectList(DB.BloodGroupsTables.ToList(), "BloodGroupID", "BloodGroup", "0");
+            ViewBag.GenderID = new SelectList(DB.GenderTables.ToList(), "GenderID", "Gender", "0");
             return View(registerationmv);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SeekerUser(RegisterationMV registerationMV)
         {
-            ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", registerationmv.CityID);
-            return View();
+            if (ModelState.IsValid)
+            {
+                var checktitle = DB.SeekerTables
+                    .Where(h => h.FullName == registerationMV.Seeker.FullName.Trim() && h.CNIC == registerationMV.Seeker.CNIC)
+                    .FirstOrDefault();
+                if (checktitle == null)
+                {
+                    using (var transaction = DB.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            var user = new UserTable
+                            {
+                                UserName = registerationMV.User.UserName,
+                                Password = registerationMV.User.Password,
+                                EmailAddress = registerationMV.User.EmailAddress,
+                                AccountStatusID = 1,
+                                UserTypeID = registerationMV.UserTypeID,
+                                Description = registerationMV.User.Description
+                            };
+
+                            DB.UserTables.Add(user);
+                            DB.SaveChanges();
+
+                            var seeker = new SeekerTable
+                            {
+                                FullName = registerationMV.Seeker.FullName,
+                                Age = registerationMV.Seeker.Age,
+                                BloodGroupID = registerationMV.BloodGroupID,
+                                Address = registerationMV.Seeker.Address,
+                                Contact = registerationMV.Seeker.Contact,
+                                RegistrationDate = DateTime.Now,
+                                CNIC = registerationMV.Seeker.CNIC,
+                                GenderID = registerationMV.GenderID,
+                                CityID = registerationMV.CityID,
+                                UserID = user.UserID
+                            };
+
+                            DB.SeekerTables.Add(seeker);
+                            DB.SaveChanges();
+
+                            transaction.Commit();
+                            ViewData["Message"] = "Thanks for Registration, Your Query will be reviewed shortly!";
+                            return RedirectToAction("MainHome", "Home");
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelState.AddModelError(string.Empty, $"Error: {ex.Message}");
+                            Console.WriteLine($"Exception: {ex.Message}"); // Log for debugging
+                            transaction.Rollback();
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Seeker Already Existed.");
+                }
+            }
+            else
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (var error in errors)
+                {
+                    Console.WriteLine($"ModelState Error: {error.ErrorMessage}"); // Log validation errors
+                }
+            }
+
+            ViewBag.BloodGroupID = new SelectList(DB.BloodGroupsTables.ToList(), "BloodGroupID", "BloodGroup", registerationMV.BloodGroupID);
+            ViewBag.GenderID = new SelectList(DB.GenderTables.ToList(), "GenderID", "Gender", registerationMV.GenderID);
+            ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", registerationMV.CityID);
+            return View(registerationMV);
+
         }
     }
 }
