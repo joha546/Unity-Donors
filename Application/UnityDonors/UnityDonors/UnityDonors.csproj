@@ -232,6 +232,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccounStatusController.cs" />
+    <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\BloodGroupController.cs" />
     <Compile Include="Controllers\CityTablesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -319,6 +320,8 @@
     <Content Include="Views\Registration\DonorUser.cshtml" />
     <Content Include="Views\Registration\BloodBankUser.cshtml" />
     <Content Include="Views\Registration\SeekerUser.cshtml" />
+    <Content Include="Views\Accounts\AllNewUserRequests.cshtml" />
+    <Content Include="Views\Accounts\UserDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
