@@ -23,16 +23,16 @@ namespace UnityDonors.Controllers
             {
                 return RedirectToAction("DonorUser");
             }
-            else if(registerationMV.UserTypeID == 6)
+            else if(registerationMV.UserTypeID == 4)
             {
                 return RedirectToAction("SeekerUser");
             }
-            else if (registerationMV.UserTypeID == 1 || registerationMV.UserTypeID == 4)
+            else if (registerationMV.UserTypeID == 5)
             {
                 return RedirectToAction("HospitalUser");
             }
 
-            else if (registerationMV.UserTypeID == 5)
+            else if (registerationMV.UserTypeID == 6)
             {
                 return RedirectToAction("BloodBankUser");
             }
