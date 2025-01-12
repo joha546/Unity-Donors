@@ -322,6 +322,7 @@
     <Content Include="Views\Registration\SeekerUser.cshtml" />
     <Content Include="Views\Accounts\AllNewUserRequests.cshtml" />
     <Content Include="Views\Accounts\UserDetails.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

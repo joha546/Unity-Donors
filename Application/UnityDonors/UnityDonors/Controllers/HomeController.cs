@@ -25,5 +25,18 @@ namespace UnityDonors.Controllers
             ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", "0");
             return View(registeration);
         }
+
+        public ActionResult Login()
+        {
+            var usermv = new UserMV();
+            return View(usermv);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(UserMV userMV)
+        {
+            return View(userMV);
+        }
     }
 }
