@@ -17,6 +17,10 @@ namespace UnityDonors.Controllers
 
         public ActionResult AllRequestType()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var requesttype = DB.RequestTypeTables.ToList();
             var listrequesttype = new List<RequestTypeMV>();
 
@@ -33,6 +37,10 @@ namespace UnityDonors.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var requesttype = new RequestTypeMV();
             return View(requesttype);
         }
@@ -41,6 +49,10 @@ namespace UnityDonors.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(RequestTypeMV requestTypeMV)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (ModelState.IsValid)
             {
                 var requestTypeTable = new RequestTypeTable();
@@ -56,6 +68,11 @@ namespace UnityDonors.Controllers
 
         [HttpGet]
         public ActionResult Edit(int? id) {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
             var requesttype = DB.RequestTypeTables.Find(id);
             if(requesttype == null)
             {
@@ -71,6 +88,10 @@ namespace UnityDonors.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(RequestTypeMV requestTypeMV)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (ModelState.IsValid)
             {
                 var requestTypeTable = new RequestTypeTable();
@@ -86,7 +107,11 @@ namespace UnityDonors.Controllers
 
         public ActionResult Delete(int? id)
         {
-            if(id == null)
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            if (id == null)
             {
                 return HttpNotFound();
             }
@@ -105,6 +130,10 @@ namespace UnityDonors.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirm(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var requesttype = DB.RequestTypeTables.Find(id);
             DB.RequestTypeTables.Remove(requesttype);
             DB.SaveChanges();

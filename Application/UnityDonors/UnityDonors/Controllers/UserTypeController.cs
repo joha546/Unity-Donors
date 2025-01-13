@@ -17,6 +17,10 @@ namespace UnityDonors.Controllers
 
         public ActionResult AllUserTypes()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var usertypes = DB.UserTypeTables.ToList();
             var listusertypes = new List<UserTypeMV>();
 
@@ -34,6 +38,10 @@ namespace UnityDonors.Controllers
 
         public ActionResult Create()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var usertype = new UserTypeMV();
             return View(usertype);
         }
@@ -42,6 +50,10 @@ namespace UnityDonors.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(UserTypeMV userTypeMV)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (ModelState.IsValid)
             {
                 var userTypeTable = new UserTypeTable();
@@ -58,6 +70,10 @@ namespace UnityDonors.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var usertype = DB.UserTypeTables.Find(id);
             if (usertype == null)
             {
@@ -73,6 +89,10 @@ namespace UnityDonors.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(UserTypeMV userTypeMV)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (ModelState.IsValid)
             {
                 var userTypeTable = new UserTypeTable();
@@ -88,6 +108,10 @@ namespace UnityDonors.Controllers
 
         public ActionResult Delete(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (id == null)
             {
                 return HttpNotFound();
@@ -107,6 +131,10 @@ namespace UnityDonors.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirm(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var usertype = DB.UserTypeTables.Find(id);
             DB.UserTypeTables.Remove(usertype);
             DB.SaveChanges();

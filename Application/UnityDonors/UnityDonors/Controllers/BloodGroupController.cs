@@ -17,6 +17,10 @@ namespace UnityDonors.Controllers
 
         public ActionResult AllBloodGroups()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var bloodgroups = DB.BloodGroupsTables.ToList();
             var listbloodgroups = new List<BloodGroupsMV>();
 
@@ -33,6 +37,10 @@ namespace UnityDonors.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var bloodgroup = new BloodGroupsMV();
             return View(bloodgroup);
         }
@@ -41,6 +49,10 @@ namespace UnityDonors.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(BloodGroupsMV bloodGroupsMV)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (ModelState.IsValid)
             {
                 var checkbloodgroup = DB.BloodGroupsTables.Where(b => b.BloodGroup == bloodGroupsMV.BloodGroup).FirstOrDefault();
@@ -66,6 +78,10 @@ namespace UnityDonors.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var bloodgroup = DB.BloodGroupsTables.Find(id);
             if (bloodgroup == null)
             {
@@ -81,6 +97,10 @@ namespace UnityDonors.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(BloodGroupsMV bloodgroupsMV)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (ModelState.IsValid)
             {
                 var checkbloodgroup = DB.BloodGroupsTables.Where(b => b.BloodGroup == bloodgroupsMV.BloodGroup && b.BloodGroupID != bloodgroupsMV.BloodGroupID ).FirstOrDefault();
@@ -104,6 +124,10 @@ namespace UnityDonors.Controllers
 
         public ActionResult Delete(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (id == null)
             {
                 return HttpNotFound();
@@ -123,6 +147,10 @@ namespace UnityDonors.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirm(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var bloodgroup = DB.BloodGroupsTables.Find(id);
             DB.BloodGroupsTables.Remove(bloodgroup);
             DB.SaveChanges();

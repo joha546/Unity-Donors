@@ -54,10 +54,10 @@ namespace UnityDonors.Controllers
                     {
                         ModelState.AddModelError(string.Empty, "Your Account is Suspended. For more details, contact us.");
                     }
-                    else if (user.AccountStatusID == 2)
+                    else if (user.AccountStatusID == 2) // Approved
                     {
                         Session["UserID"] = user.UserID;
-                        Session["UserName"] = user.UserName;  // used to maintain the state of user data throughout the application
+                        Session["UserName"] = user.UserName;
                         Session["Password"] = user.Password;
                         Session["EmailAddress"] = user.EmailAddress;
                         Session["AccountStatusID"] = user.AccountStatusID;
@@ -66,11 +66,12 @@ namespace UnityDonors.Controllers
                         Session["UserType"] = user.UserTypeTable.UserType;
                         Session["Description"] = user.Description;
 
-                        if (user.UserTypeID == 1)
+                        if(user.UserTypeID == 1)  // Admin
                         {
-
+                            return RedirectToAction("MainHome");
                         }
 
+                        // Corrected UserTypeID checks and removed duplicates
                         else if (user.UserTypeID == 2) // Donor Sessions
                         {
                             var donor = DB.DonorTables.Where(u => u.UserID == user.UserID).FirstOrDefault();
@@ -87,13 +88,14 @@ namespace UnityDonors.Controllers
                                 Session["Location"] = donor.Location;
                                 Session["CityID"] = donor.CityID;
                                 Session["City"] = donor.CityTable.City;
+
+                                return RedirectToAction("MainHome");
                             }
                             else
-                            { 
+                            {
                                 ModelState.AddModelError(string.Empty, "Account Not Registered!!!!");
                             }
                         }
-
                         else if (user.UserTypeID == 4) // Seeker Sessions
                         {
                             var seeker = DB.SeekerTables.Where(u => u.UserID == user.UserID).FirstOrDefault();
@@ -112,14 +114,14 @@ namespace UnityDonors.Controllers
                                 Session["Gender"] = seeker.GenderTable.Gender;
                                 Session["RegistrationDate"] = seeker.RegistrationDate;
                                 Session["Address"] = seeker.Address;
+
+                                return RedirectToAction("MainHome");
                             }
                             else
                             {
                                 ModelState.AddModelError(string.Empty, "Account Not Registered!!!!");
-
                             }
                         }
-
                         else if (user.UserTypeID == 5) // Hospital Sessions
                         {
                             var hospital = DB.HospitalTables.Where(u => u.UserID == user.UserID).FirstOrDefault();
@@ -134,15 +136,15 @@ namespace UnityDonors.Controllers
                                 Session["Location"] = hospital.Location;
                                 Session["CityID"] = hospital.CityID;
                                 Session["City"] = hospital.CityTable.City;
+
+                                return RedirectToAction("MainHome");
                             }
                             else
                             {
                                 ModelState.AddModelError(string.Empty, "Account Not Registered!!!!");
-
                             }
                         }
-
-                        else if (user.UserTypeID == 5) // BloodBank Sessions
+                        else if (user.UserTypeID == 6) // BloodBank Sessions
                         {
                             var bloodbank = DB.BloodBankTables.Where(u => u.UserID == user.UserID).FirstOrDefault();
                             if (bloodbank != null)
@@ -156,23 +158,23 @@ namespace UnityDonors.Controllers
                                 Session["Location"] = bloodbank.Location;
                                 Session["CityID"] = bloodbank.CityID;
                                 Session["City"] = bloodbank.CityTable.City;
+
+                                return RedirectToAction("MainHome");
                             }
                             else
                             {
                                 ModelState.AddModelError(string.Empty, "Account Not Registered!!!!");
-
                             }
                         }
                         else
                         {
-                            ModelState.AddModelError(string.Empty, "Account Not Registered!!!!");
+                            ModelState.AddModelError(string.Empty, "Invalid User Type!!!!");
                         }
                     }
                     else
                     {
                         ModelState.AddModelError(string.Empty, "Account Not Registered!!!!");
                     }
-
                 }
                 else
                 {
@@ -181,12 +183,11 @@ namespace UnityDonors.Controllers
             }
             else
             {
-                
                 ModelState.AddModelError(string.Empty, "Please Provide the required information.");
-               
             }
             ClearSession();
             return View(userMV);
+
         }
 
         private void ClearSession()

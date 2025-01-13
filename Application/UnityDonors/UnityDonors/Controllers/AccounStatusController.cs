@@ -17,6 +17,10 @@ namespace UnityDonors.Controllers
 
         public ActionResult AllAccountStatus()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var accountstatuses = DB.AccountStatusTables.ToList();
             var listaccountstatuses = new List<AccountStatusMV>();
 
@@ -33,6 +37,10 @@ namespace UnityDonors.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var accountStatus = new AccountStatusMV();
             return View(accountStatus);
         }
@@ -41,6 +49,10 @@ namespace UnityDonors.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(AccountStatusMV accountStatusMV)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (ModelState.IsValid)
             {
                 var checkaccountstatus = DB.AccountStatusTables.Where(b => b.AccountStatus == accountStatusMV.AccountStatus).FirstOrDefault();
@@ -57,7 +69,6 @@ namespace UnityDonors.Controllers
                 {
                     ModelState.AddModelError("AccountStatus", "Already Exist!");
                 }
-
             }
 
             return View(accountStatusMV);
@@ -66,6 +77,10 @@ namespace UnityDonors.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var accountStatus = DB.AccountStatusTables.Find(id);
             if (accountStatus == null)
             {
@@ -81,6 +96,10 @@ namespace UnityDonors.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(AccountStatusMV accountStatusMV)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (ModelState.IsValid)
             {
                 var checkaccountstatus = DB.AccountStatusTables.Where(b => b.AccountStatus == accountStatusMV.AccountStatus && b.AccountStatusID != accountStatusMV.AccountStatusID).FirstOrDefault();
@@ -104,6 +123,10 @@ namespace UnityDonors.Controllers
 
         public ActionResult Delete(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (id == null)
             {
                 return HttpNotFound();
@@ -123,6 +146,10 @@ namespace UnityDonors.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirm(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var accountStatus = DB.AccountStatusTables.Find(id);
             DB.AccountStatusTables.Remove(accountStatus);
             DB.SaveChanges();
