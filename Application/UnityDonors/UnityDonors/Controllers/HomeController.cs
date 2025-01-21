@@ -68,7 +68,7 @@ namespace UnityDonors.Controllers
 
                         if(user.UserTypeID == 1)  // Admin
                         {
-                            return RedirectToAction("MainHome");
+                            return RedirectToAction("AllNewUserRequests", "Accounts");
                         }
 
                         // Corrected UserTypeID checks and removed duplicates

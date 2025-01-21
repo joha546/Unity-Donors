@@ -312,10 +312,10 @@
     <Content Include="Views\BloodGroup\Create.cshtml" />
     <Content Include="Views\BloodGroup\Edit.cshtml" />
     <Content Include="Views\BloodGroup\Delete.cshtml" />
-    <Content Include="Views\AccounStatus\AllAccountStatus.cshtml" />
-    <Content Include="Views\AccounStatus\Create.cshtml" />
-    <Content Include="Views\AccounStatus\Edit.cshtml" />
-    <Content Include="Views\AccounStatus\Delete.cshtml" />
+    <Content Include="Views\AccountStatus\AllAccountStatus.cshtml" />
+    <Content Include="Views\AccountStatus\Create.cshtml" />
+    <Content Include="Views\AccountStatus\Edit.cshtml" />
+    <Content Include="Views\AccountStatus\Delete.cshtml" />
     <Content Include="Views\Registration\HospitalUser.cshtml" />
     <Content Include="Views\Registration\DonorUser.cshtml" />
     <Content Include="Views\Registration\BloodBankUser.cshtml" />
