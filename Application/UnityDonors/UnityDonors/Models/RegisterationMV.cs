@@ -7,7 +7,6 @@ namespace UnityDonors.Models
 {
     public class RegisterationMV
     {
-
         public RegisterationMV() 
         { 
             Seeker = new SeekerMV();
