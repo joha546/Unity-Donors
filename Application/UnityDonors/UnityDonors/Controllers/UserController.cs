@@ -28,6 +28,7 @@ namespace UnityDonors.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
+
             var userprofile = new RegisterationMV();
             var user = DB.UserTables.Find(id);
 
@@ -61,6 +62,8 @@ namespace UnityDonors.Controllers
                 userprofile.CityID = seeker.CityID;
                 userprofile.BloodGroupID = seeker.BloodGroupID;
                 userprofile.GenderID = seeker.GenderID;
+
+
             }
 
             else if (user.HospitalTables.Count > 0)
@@ -118,19 +121,25 @@ namespace UnityDonors.Controllers
                 userprofile.BloodGroupID = donor.BloodGroupID;
                 userprofile.GenderID = donor.GenderID;
             }
-            return View(user);
+            ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", userprofile.CityID);
+            ViewBag.BloodGroupID = new SelectList(DB.BloodGroupsTables.ToList(), "BloodGroupID", "BloodGroup",userprofile.BloodGroupID );
+            ViewBag.GenderID = new SelectList(DB.GenderTables.ToList(), "GenderID", "Gender", userprofile.GenderID);
+            return View(userprofile);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditUserProfile(RegisterationMV registerationMVid)
+        public ActionResult EditUserProfile(RegisterationMV userprofile)
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
             {
                 return RedirectToAction("Login", "Home");
             }
             // var user = DB.UserTables.Find(id);
-            return View(registerationMVid);
+            ViewBag.CityID = new SelectList(DB.CityTables.ToList(), "CityID", "City", userprofile.CityID);
+            ViewBag.BloodGroupID = new SelectList(DB.BloodGroupsTables.ToList(), "BloodGroupID", "BloodGroup", userprofile.BloodGroupID);
+            ViewBag.GenderID = new SelectList(DB.GenderTables.ToList(), "GenderID", "Gender", userprofile.GenderID);
+            return View(userprofile);
         }
     }
 }
