@@ -147,7 +147,22 @@ namespace UnityDonors.Controllers
                         else if (user.UserTypeID == 6) // BloodBank Sessions
                         {
                             var bloodbank = DB.BloodBankTables.Where(u => u.UserID == user.UserID).FirstOrDefault();
-                            if (bloodbank != null)
+                            if (bloodbank == null)
+                            {
+                                ModelState.AddModelError(string.Empty, "Blood bank account not associated with this user.");
+                                //Session["BloodBankID"] = bloodbank.BloodBankID;
+                                //Session["BloodBankName"] = bloodbank.BloodBankName;
+                                //Session["Address"] = bloodbank.Address;
+                                //Session["PhoneNo"] = bloodbank.PhoneNo;
+                                //Session["Website"] = bloodbank.Website;
+                                //Session["Email"] = bloodbank.Email;
+                                //Session["Location"] = bloodbank.Location;
+                                //Session["CityID"] = bloodbank.CityID;
+                                //Session["City"] = bloodbank.CityTable.City;
+
+                                //return RedirectToAction("BloodBank", "Dashboard");
+                            }
+                            else
                             {
                                 Session["BloodBankID"] = bloodbank.BloodBankID;
                                 Session["BloodBankName"] = bloodbank.BloodBankName;
@@ -160,10 +175,6 @@ namespace UnityDonors.Controllers
                                 Session["City"] = bloodbank.CityTable.City;
 
                                 return RedirectToAction("BloodBank", "Dashboard");
-                            }
-                            else
-                            {
-                                ModelState.AddModelError(string.Empty, "Account Not Registered!!!!");
                             }
                         }
                         else
@@ -187,7 +198,7 @@ namespace UnityDonors.Controllers
             }
             ClearSession();
             return View(userMV);
-
+             
         }
 
         private void ClearSession()

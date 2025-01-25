@@ -117,6 +117,11 @@
                                                             <ul class="drop-down">
                                                                 <li><a href="events.html">All Campaigns</a></li>
                                                                 <li><a href="event-single.html">Single Campaign</a></li>
+                                                                @if (usertypeid == 6)
+                                                                {
+                                                                    <li><a href="@Url.Content("~/BloodBank/BloodBankStock")">Stock</a></li>
+                                                                }
+
                                                             </ul>
                                                         </li>
                                                         @if (usertypeid == 1)

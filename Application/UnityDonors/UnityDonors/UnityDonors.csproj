@@ -233,6 +233,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountStatusController.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\BloodBankController.cs" />
     <Compile Include="Controllers\BloodGroupController.cs" />
     <Compile Include="Controllers\CityTablesController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -246,6 +247,7 @@
     </Compile>
     <Compile Include="Models\AccountStatusMV.cs" />
     <Compile Include="Models\BloodBankMV.cs" />
+    <Compile Include="Models\BloodBankStockMV.cs" />
     <Compile Include="Models\BloodGroupsMV.cs" />
     <Compile Include="Models\DonorMV.cs" />
     <Compile Include="Models\HospitalMV.cs" />
@@ -331,6 +333,7 @@
     <Content Include="Views\Dashboard\BloodBank.cshtml" />
     <Content Include="Views\Dashboard\Donor.cshtml" />
     <Content Include="Views\User\EditUserProfile.cshtml" />
+    <Content Include="Views\BloodBank\BloodBankStock.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
