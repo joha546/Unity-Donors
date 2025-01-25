@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0f13f1c494044f509b6c1678980fa130" Name="Diagram1" ZoomLevel="58">
+      <Diagram DiagramId="0f13f1c494044f509b6c1678980fa130" Name="Diagram1" ZoomLevel="75">
         <EntityTypeShape EntityType="UnityDonorDbModel.BloodBankStockTable" Width="1.5" PointX="5.25" PointY="5.625" IsExpanded="true" />
         <EntityTypeShape EntityType="UnityDonorDbModel.BloodBankTable" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="UnityDonorDbModel.BloodGroupsTable" Width="1.5" PointX="5.75" PointY="2.5" IsExpanded="true" />
@@ -20,7 +20,7 @@
         <AssociationConnector Association="UnityDonorDbModel.FK_HospitalTable_CityTable" ManuallyRouted="false" />
         <AssociationConnector Association="UnityDonorDbModel.FK_SeekerTable_CityTable" ManuallyRouted="false" />
         <AssociationConnector Association="UnityDonorDbModel.FK_RequestTable_RequestTypeTable" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="UnityDonorDbModel.AccountStatusTable" Width="1.5" PointX="8.375" PointY="13.875" />
+        <EntityTypeShape EntityType="UnityDonorDbModel.AccountStatusTable" Width="1.5" PointX="8.625" PointY="15.375" />
         <EntityTypeShape EntityType="UnityDonorDbModel.UserTable" Width="1.5" PointX="10.625" PointY="10" />
         <EntityTypeShape EntityType="UnityDonorDbModel.UserTypeTable" Width="1.5" PointX="8.375" PointY="10.875" />
         <AssociationConnector Association="UnityDonorDbModel.FK_UserTable_AccountStatusTable" />
@@ -28,17 +28,20 @@
         <AssociationConnector Association="UnityDonorDbModel.FK_HospitalTable_UserTable" />
         <AssociationConnector Association="UnityDonorDbModel.FK_SeekerTable_UserTable" />
         <AssociationConnector Association="UnityDonorDbModel.FK_UserTable_UserTypeTable" />
-        <EntityTypeShape EntityType="UnityDonorDbModel.DonorTable" Width="1.5" PointX="12.875" PointY="6.125" />
+        <EntityTypeShape EntityType="UnityDonorDbModel.DonorTable" Width="1.5" PointX="13.75" PointY="5.625" />
         <EntityTypeShape EntityType="UnityDonorDbModel.GenderTable" Width="1.5" PointX="5.75" PointY="9" />
         <AssociationConnector Association="UnityDonorDbModel.FK_DonorTable_BloodGroupsTable" />
         <AssociationConnector Association="UnityDonorDbModel.FK_DonorTable_CityTable" />
         <AssociationConnector Association="UnityDonorDbModel.FK_DonorTable_GenderTable" />
         <AssociationConnector Association="UnityDonorDbModel.FK_DonorTable_UserTable" />
         <AssociationConnector Association="UnityDonorDbModel.FK_SeekerTable_GenderTable" />
-        <EntityTypeShape EntityType="UnityDonorDbModel.BloodBankStockDetailTable" Width="1.5" PointX="19.75" PointY="6.875" />
+        <EntityTypeShape EntityType="UnityDonorDbModel.BloodBankStockDetailTable" Width="1.5" PointX="17.375" PointY="7.125" />
+        <EntityTypeShape EntityType="UnityDonorDbModel.CampaignTable" Width="1.5" PointX="5.25" PointY="11.875" />
         <AssociationConnector Association="UnityDonorDbModel.FK_BloodBankStockDetailTable_BloodBankStockTable" />
         <AssociationConnector Association="UnityDonorDbModel.FK_BloodBankStockDetailTable_BloodGroupsTable" />
+        <AssociationConnector Association="UnityDonorDbModel.FK_BloodBankStockDetailTable_CampaignTable" />
         <AssociationConnector Association="UnityDonorDbModel.FK_BloodBankStockDetailTable_DonorTable" />
+        <AssociationConnector Association="UnityDonorDbModel.FK_CampaignTable_BloodBankTable" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

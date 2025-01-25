@@ -43,5 +43,10 @@ namespace UnityDonors.Controllers
             }
             return View(list);
         }
+
+        public ActionResult NewCampaign()
+        {
+            return View();
+        }
     }
 }
