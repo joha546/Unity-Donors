@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using UnityDonors.Helper_Class;
 using UnityDonors.Models;
+
+using System.Data.Entity;
 
 namespace UnityDonors.Controllers
 {
@@ -44,9 +47,73 @@ namespace UnityDonors.Controllers
             return View(list);
         }
 
+        public ActionResult AllCampaigns()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int bloodbankID = 0;
+            int.TryParse(Convert.ToString(Session["BloodBankID"]), out bloodbankID);
+            var allcampaigns = DB.CampaignTables.Where(c => c.BloodBankID == bloodbankID);
+            return View(allcampaigns);
+        }
         public ActionResult NewCampaign()
         {
-            return View();
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            var campaignMV = new CampaignMV();
+            return View(campaignMV);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewCampaign(CampaignMV campaignMV)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            var bloodbankID = 0;
+            int.TryParse(Convert.ToString(Session["BloodBankID"]), out bloodbankID);
+            campaignMV.BloodBankID = bloodbankID;
+
+            if (ModelState.IsValid)
+            {
+                var campaign = new CampaignTable();
+                campaign.BloodBankID = bloodbankID;
+                campaign.CampaignDate = campaignMV.CampaignDate;
+                campaign.StartTime = campaignMV.StartTime;
+                campaign.EndTime = campaignMV.EndTime;
+                campaign.Location = campaignMV.Location;
+                campaign.CampaignDetails = campaignMV.CampaignDetails;
+                campaign.CampaignTitle = campaignMV.CampaignTitle;
+                campaign.CampaignPhoto = "~/Content/CampaignPhoto/banner.jpeg";
+
+                DB.CampaignTables.Add(campaign);
+                DB.SaveChanges();
+
+                if(campaignMV.CampaignPhotoFile != null)
+                {
+                    var folder = "~/Content/CampaignPhoto";
+                    var file = string.Format("{0}.jpg", campaignMV.CampaignID);
+                    var response = FileHelper.UploadPhoto(campaignMV.CampaignPhotoFile, folder, file);
+
+                    if (response)
+                    {
+                        var pic = string.Format("{0}/{1}", folder, file);
+                        campaign.CampaignPhoto = pic;
+                        DB.Entry(campaign).State = EntityState.Modified;
+                        DB.SaveChanges();
+                    }
+                }
+
+                return RedirectToAction("AllCampaigns");
+
+            }
+            return View(campaignMV);
         }
     }
 }
