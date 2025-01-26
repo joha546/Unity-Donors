@@ -6,13 +6,13 @@ using System.Web;
 
 namespace UnityDonors.Models
 {
-    public class DonorMV
+    public class CollectedBloodDonorDetailMV
     {
         public int DonorID { get; set; }
         public string FullName { get; set; }
         public int GenderID { get; set; }
         public int BloodGroupID { get; set; }
-        public string BloodGroup {  get; set; }
+        public string BloodGroup { get; set; }
         [DataType(DataType.Date)]
         public System.DateTime LastDonationID { get; set; }
         public string ContactNo { get; set; }
@@ -22,5 +22,10 @@ namespace UnityDonors.Models
         public string City { get; set; }
         public int UserID { get; set; }
         public string UserName { get; set; }
+        public string EmailAddress { get; set; }
+        public string Password { get; set; }
+        public int AccountStatusID { get; set; }
+        public int UserTypeID { get; set; }
+        public string Description { get; set; }
     }
 }

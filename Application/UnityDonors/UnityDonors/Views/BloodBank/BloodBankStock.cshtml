@@ -10,6 +10,7 @@
         <h2 class="contact-title">BloodBank Stock</h2>
 
         <p>
+            @Html.ActionLink("Add Donor", "AddNewDonorByBloodBank", "Accounts", null, new { @class = "btn btn-theme" })
             @Html.ActionLink("New Campaign", "NewCampaign", null, new { @class = "btn btn-theme" })
             @Html.ActionLink("Campaign History", "CampaignHistory", null, new { @class = "btn btn-theme" })
         </p>

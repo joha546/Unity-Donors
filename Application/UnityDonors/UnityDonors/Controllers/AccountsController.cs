@@ -56,5 +56,19 @@ namespace UnityDonors.Controllers
             DB.SaveChanges();
             return RedirectToAction("AllNewUserRequests");
         }
+
+        public ActionResult AddNewDonorByBloodBank()
+        {
+            var collectBloodMV = new CollectBloodMV();
+            return View(collectBloodMV);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddNewDonorByBloodBank(CollectBloodMV collectBloodMV)
+        {
+            return RedirectToAction("BloodBankStock", "BloodBank");
+            // return View(collectBloodMV);
+        }
     }
 }
