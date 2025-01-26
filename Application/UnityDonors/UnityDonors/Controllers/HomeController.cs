@@ -13,10 +13,18 @@ namespace UnityDonors.Controllers
     {
         Unity_DonorEntities DB = new Unity_DonorEntities();
         // GET: Home
-        public ActionResult Index()
+        public ActionResult AllCampaigns()
         {
-            return View();
+            //if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+            var date = DateTime.Now.AddDays(1);
+            var allcampaigns = DB.CampaignTables.Where(c => c.CampaignDate < date).ToList();
+            return View(allcampaigns);
         }
+
+
         public ActionResult MainHome()
         {
             var message = ViewData["Message"] == null? "Welcome to Unity Donors." : ViewData["Message"];
