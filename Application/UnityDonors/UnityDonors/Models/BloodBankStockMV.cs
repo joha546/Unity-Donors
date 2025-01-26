@@ -17,7 +17,7 @@ namespace UnityDonors.Models
 
         [Display(Name = "Blood Group")]
         public string BloodGroup {  get; set; }
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
 
         [Display(Name = "Is Ready.")]
         public string Status { get; set; }
