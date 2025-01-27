@@ -96,11 +96,8 @@
                         <ul class="nav navbar-nav navbar-right">
 
                             <li>
-                                <a href="#">Home</a>
-                                <ul class="drop-down">
-                                    <li><a href="index.html" title="Home Layout 01">Home 01</a></li>
-                                    <li><a href="home-2.html" title="Home Layout 02">Home 02</a></li>
-                                </ul>
+                                <a href="@Url.Content("~/Home/MainHome")">Home</a>
+                               
                             </li>
 
 
@@ -395,7 +392,7 @@
                                     and visit thousands of other venues on various occasions.
                                 </small>
                             </h4>
-                            <a class="btn btn-theme margin-top-32" href="#">Load All Campaigns</a>
+                            <a class="btn btn-theme margin-top-32" href="@Url.Content("~/Home/AllCampaigns")">Load All Campaigns</a>
                         </div> <!-- end .col-sm-12  -->
 
                     </div> <!-- end .row  -->
@@ -408,90 +405,60 @@
 
                         <div class="event-carousel owl-carousel" data-nav="false" data-dots="true" data-items="1">
 
-                            <div class="col-md-6 col-sm-12">
-                                <div class="event-layout-1 theme-custom-box-shadow clearfix">
-                                    <figure class="event-img">
-                                        <a href="#">
-                                            <img src="~/Content/Template/images/event_1.jpg" alt="">
-                                        </a>
-                                    </figure>
-                                    <div class="event-info">
-                                        <a class="event-date" href="#"><i class="fa fa-calendar-o"></i> 24 February, 2024</a>
-                                        <h4>
-                                            <a href="#">Opening Donation Day</a>
-                                        </h4>
-                                        <div class="event-exceprt">Join us for a day of giving and make a difference in someone's life. Your donation can save lives and bring hope to those in need.</div>
-                                        <div class="event-time">
-                                            <a href="#"><i class="fa fa-clock-o"></i> 10.00 - 3.00</a>
-                                            <a href="#"> <i class="fa fa-map-marker"></i> Chowgacha, Jashore</a>
+                            @{
+                                List<DatabaseLayer.CampaignTable> activeallcampaigns = ViewBag.AllCampaigns != null ? (List<DatabaseLayer.CampaignTable>)ViewBag.AllCampaigns : null;
+
+                                if (activeallcampaigns != null)
+                                {
+                                    foreach (var item in activeallcampaigns)
+                                    {
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="event-layout-1 theme-custom-box-shadow clearfix">
+                                                <figure class="event-img">
+                                                    <a href="#">
+                                                        <img src="@Url.Content(item.CampaignPhoto)" alt="">
+                                                    </a>
+                                                </figure>
+                                                <div class="event-info">
+                                                    <a class="event-date" href="#"><i class="fa fa-calendar-o"></i>@item.CampaignDate.ToString("dd MMMM, yyyy")</a>
+                                                    <h4>
+                                                        <a href="#">@item.CampaignTitle</a>
+                                                    </h4>
+                                                    <div class="event-exceprt">@item.CampaignDetails</div>
+                                                    <div class="event-time">
+                                                        <a href="#"><i class="fa fa-clock-o"></i> @item.StartTime - @item.EndTime</a>
+                                                        <a href="#"> <i class="fa fa-map-marker"></i>@item.Location</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="col-md-6 col-sm-12">
+                                        <div class="event-layout-1 theme-custom-box-shadow clearfix">
+                                            <figure class="event-img">
+                                                <a href="#">
+                                                    <img src="~/Content/Template/images/event_1.jpg" alt="">
+                                                </a>
+                                            </figure>
+                                            <div class="event-info">
+                                                <a class="event-date" href="#"><i class="fa fa-calendar-o"></i> 00 Month, YYYY</a>
+                                                <h4>
+                                                    <a href="#">Currently No Campaigns</a>
+                                                </h4>
+                                                <div class="event-exceprt">Will be arranged shortly...</div>
+                                                <div class="event-time">
+                                                    <a href="#"><i class="fa fa-clock-o"></i>expected time: 10.00 - 3.00</a>
+                                                    <a href="#"> <i class="fa fa-map-marker"></i>No Location</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                }
 
-                            <div class="col-md-6 col-sm-12">
-                                <div class="event-layout-1 theme-custom-box-shadow clearfix">
-                                    <figure class="event-img">
-                                        <a href="#">
-                                            <img src="~/Content/Template/images/event_3.jpg" alt="">
-                                        </a>
-                                    </figure>
-                                    <div class="event-info">
-                                        <a class="event-date" href="#"><i class="fa fa-calendar-o"></i> 11 March, 2024</a>
-                                        <h4>
-                                            <a href="#">Free Group Checking</a>
-                                        </h4>
-                                        <div class="event-exceprt">The pain and pleasure of life come and go. Discomfort and ease, triumph and defeat, all are part of the cycle. Embrace the ups and downs, for they are the essence of the human experience.</div>
-                                        <div class="event-time">
-                                            <a href="#"><i class="fa fa-clock-o"></i> 10.00 - 3.00</a>
-                                            <a href="#"> <i class="fa fa-map-marker"></i>BandarTilla, Chittagong</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-sm-12">
-                                <div class="event-layout-1 theme-custom-box-shadow clearfix">
-                                    <figure class="event-img">
-                                        <a href="#">
-                                            <img src="~/Content/Template/images/event_4.jpg" alt="">
-                                        </a>
-                                    </figure>
-                                    <div class="event-info">
-                                        <a class="event-date" href="#"><i class="fa fa-calendar-o"></i> 14 June, 2024</a>
-                                        <h4>
-                                            <a href="#">Blood Group Collection</a>
-                                        </h4>
-                                        <div class="event-exceprt">The blood group collection process involves collecting blood samples from donors and analyzing their blood to determine their blood type. This information is then recorded and stored in a database for future reference and use in medical procedures.</div>
-                                        <div class="event-time">
-                                            <a href="#"><i class="fa fa-clock-o"></i> 10.00 - 3.00</a>
-                                            <a href="#"> <i class="fa fa-map-marker"></i> Rangamati</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-sm-12">
-                                <div class="event-layout-1 theme-custom-box-shadow clearfix">
-                                    <figure class="event-img">
-                                        <a href="#">
-                                            <img src="~/Content/Template/images/event_2.jpg" alt="">
-                                        </a>
-                                    </figure>
-                                    <div class="event-info">
-                                        <a class="event-date" href="#"><i class="fa fa-calendar-o"></i> 31 July, 2024</a>
-                                        <h4>
-                                            <a href="#">Blood Donation Camp</a>
-                                        </h4>
-                                        <div class="event-exceprt">Donate blood today to help save lives. Give the gift of life by participating in our upcoming blood donation camp. Your donation can make a significant difference for those in need.</div>
-                                        <div class="event-time">
-                                            <a href="#"><i class="fa fa-clock-o"></i> 10.00 - 3.00</a>
-                                            <a href="#"> <i class="fa fa-map-marker"></i>LalmonirHat</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                            }
                         </div>
                     </div>
 
