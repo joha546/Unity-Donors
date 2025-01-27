@@ -233,5 +233,10 @@ namespace UnityDonors.Controllers
 
             return RedirectToAction("MainHome");
         }
+
+        public ActionResult AboutUs()
+        {
+            return View();
+        }
     }
 }
