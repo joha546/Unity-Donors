@@ -1,7 +1,63 @@
-﻿
+﻿@model UnityDonors.Models.FinderMV
+
 @{
-    ViewBag.Title = "FinderDonors";
+    ViewBag.Title = "Find Donor";
 }
 
-<h2>FinderDonors</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="col-md-6">
+        <div class="contact-form-block">
+
+            <h2 class="contact-title">Find Donors</h2>
+
+            <p>
+                <div class="form-group col-md-4">
+                    <div class="select-style">
+                        @Html.DropDownList("BloodGroupID", null, "--Select Blood Group--", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.BloodGroupID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <div class="select-style">
+                        @Html.DropDownList("CityID", null, "--Your City--", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CityID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="submit" style="float:right;" value="Search" class="btn btn-theme-invert" />
+                </div>
+
+            </p>
+            <table class="table table-hover">
+                <tr>
+                    <th>
+                        Donor
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model.SearchResult)
+                {
+                    <tr>
+                        <td>
+                            <div>
+                                <strong>@item.FullName</strong>
+                            </div>
+                            @item.UserType
+                        </td>
+                        <td class="text-right">
+                            @Html.ActionLink("Request", "Edit", new { id = item.DonorID, donortypeid = item.UserTypeID }, new { @class = "btn btn-primary" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+}
