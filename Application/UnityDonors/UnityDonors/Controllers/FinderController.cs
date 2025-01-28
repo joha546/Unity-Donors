@@ -26,7 +26,7 @@ namespace UnityDonors.Controllers
             //var list = new List<FinderSearchResultMV>();
             var setdate = DateTime.Now.AddDays(-120);
             var donors = DB.DonorTables.Where(d => d.BloodGroupID == finderMV.BloodGroupID 
-            && d.LastDonationID < setdate).ToList();
+            && d.CityID == finderMV.CityID && d.LastDonationID < setdate).ToList();
 
             foreach(var donor in donors)
             {
