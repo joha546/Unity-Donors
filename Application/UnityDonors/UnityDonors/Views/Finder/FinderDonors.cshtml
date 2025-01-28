@@ -52,7 +52,7 @@
                             @item.UserType
                         </td>
                         <td class="text-right">
-                            @Html.ActionLink("Request", "Edit", new { id = item.DonorID, donortypeid = item.UserTypeID }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Request", "RequestForBlood", new { donorid = item.DonorID, usertypeid = item.UserTypeID, bloodgroupid = item.BloodGroupID }, new { @class = "btn btn-primary" })
                         </td>
                     </tr>
                 }
