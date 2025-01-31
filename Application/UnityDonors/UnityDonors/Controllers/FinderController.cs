@@ -1,6 +1,7 @@
 ﻿using DatabaseLayer;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -23,6 +24,10 @@ namespace UnityDonors.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult FinderDonors(FinderMV finderMV)
         {
+
+            int userid = 0;
+            int.TryParse(Convert.ToString(Session["UserID"]), out userid);
+
             //var list = new List<FinderSearchResultMV>();
             var setdate = DateTime.Now.AddDays(-120);
             var donors = DB.DonorTables.Where(d => d.BloodGroupID == finderMV.BloodGroupID 
@@ -31,19 +36,22 @@ namespace UnityDonors.Controllers
             foreach(var donor in donors)
             {
                 var user = DB.UserTables.Find(donor.UserID);
-                
-                if(user.AccountStatusID == 2)
+                if(userid != user.UserID)
                 {
-                    var adddonor = new FinderSearchResultMV();
-                    adddonor.BloodGroup = donor.BloodGroupsTable.BloodGroup;
-                    adddonor.BloodGroupID = donor.BloodGroupID;
-                    adddonor.ContactNo = donor.ContactNo;
-                    adddonor.DonorID = donor.DonorID;
-                    adddonor.FullName = donor.FullName;
-                    adddonor.UserType = "Person";
-                    adddonor.UserTypeID = user.UserTypeID;
-                    finderMV.SearchResult.Add(adddonor);
-
+                    if (user.AccountStatusID == 2)
+                    {
+                        var adddonor = new FinderSearchResultMV();
+                        adddonor.UserID = user.UserID;
+                        adddonor.BloodGroup = donor.BloodGroupsTable.BloodGroup;
+                        adddonor.BloodGroupID = donor.BloodGroupID;
+                        adddonor.ContactNo = donor.ContactNo;
+                        adddonor.DonorID = donor.DonorID;
+                        adddonor.FullName = donor.FullName;
+                        adddonor.Address = donor.Location;
+                        adddonor.UserType = "Person";
+                        adddonor.UserTypeID = user.UserTypeID;
+                        finderMV.SearchResult.Add(adddonor);
+                    }
                 }
 
             }
@@ -55,19 +63,23 @@ namespace UnityDonors.Controllers
             {
                 var getbloodbank = DB.BloodBankTables.Find(bloodbank.BloodBankID);
                 var user = DB.UserTables.Find(getbloodbank.UserID);
-                if (user.AccountStatusID == 2)
+                if (userid != user.UserID)
                 {
-                    var adddonor = new FinderSearchResultMV();
-                    adddonor.BloodGroup = bloodbank.BloodGroupsTable.BloodGroup;
-                    adddonor.BloodGroupID = bloodbank.BloodGroupID;
-                    adddonor.ContactNo = bloodbank.BloodBankTable.PhoneNo;
-                    adddonor.DonorID = bloodbank.BloodBankID;
-                    adddonor.FullName = bloodbank.BloodBankTable.BloodBankName;
-                    adddonor.UserType = "Blood Bank";
-                    adddonor.UserTypeID = user.UserTypeID;
-                    finderMV.SearchResult.Add(adddonor);
-                }
-                
+                    if (user.AccountStatusID == 2)
+                    {
+                        var adddonor = new FinderSearchResultMV();
+                        adddonor.UserID = user.UserID;
+                        adddonor.BloodGroup = bloodbank.BloodGroupsTable.BloodGroup;
+                        adddonor.BloodGroupID = bloodbank.BloodGroupID;
+                        adddonor.ContactNo = bloodbank.BloodBankTable.PhoneNo;
+                        adddonor.Address = bloodbank.BloodBankTable.Address;
+                        adddonor.DonorID = bloodbank.BloodBankID;
+                        adddonor.FullName = bloodbank.BloodBankTable.BloodBankName;
+                        adddonor.UserType = "Blood Bank";
+                        adddonor.UserTypeID = user.UserTypeID;
+                        finderMV.SearchResult.Add(adddonor);
+                    }
+                }                   
             }
 
             ViewBag.BloodGroupID = new SelectList(DB.BloodGroupsTables.ToList(), "BloodGroupID", "BloodGroup", finderMV.BloodGroupID);
