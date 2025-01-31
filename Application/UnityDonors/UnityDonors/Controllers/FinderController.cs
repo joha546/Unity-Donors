@@ -179,52 +179,83 @@ namespace UnityDonors.Controllers
             int RequestByID = 0;
             int.TryParse(Convert.ToString(Session["UserTypeID"]), out UserTypeID);
 
-            if (UserTypeID == 2) // Donor Sessions
+            if (UserTypeID == 2) // Donor
             {
                 int.TryParse(Convert.ToString(Session["DonorID"]), out RequestByID);
             }
-            else if (UserTypeID == 4) // Seeker Sessions
+            else if (UserTypeID == 4) // Seeker
             {
                 RequestTypeID = 1;
                 int.TryParse(Convert.ToString(Session["SeekerID"]), out RequestByID);
             }
-            else if (UserTypeID == 5) // Hospital Sessions
+            else if (UserTypeID == 5) // Hospital
             {
                 RequestTypeID = 2;
                 int.TryParse(Convert.ToString(Session["HospitalID"]), out RequestByID);
             }
-            else if (UserTypeID == 6) // BloodBank Sessions
+            else if (UserTypeID == 6) // BloodBank
             {
                 RequestTypeID = 3;
                 int.TryParse(Convert.ToString(Session["BloodBankID"]), out RequestByID);
             }
 
             var requests = DB.RequestTables.Where(r => r.RequestByID == RequestByID && r.RequestTypeID == RequestTypeID).ToList();
-            //var list = new List<RequestMV>();
+            var list = new List<RequestListMV>();
 
-            //foreach(var request in requests)
-            //{
-            //    var addrequest = new RequestMV();
+            foreach (var request in requests)
+            {
+                var addrequest = new RequestListMV();
 
-            //    addrequest.RequestID = request.RequestID;
-            //    addrequest.RequestDate = request.RequestDate;
-            //    addrequest.RequestByID = request.RequestID;
-            //    addrequest.AcceptedID = request.AcceptedID;
-            //    addrequest.AcceptedFullName = "";
-            //    addrequest.AcceptedTypeID = request.RequestID;
-            //    addrequest.AcceptedType = "";
-            //    addrequest.RequiredBloodGroupID = request.RequiredBloodGroupID;
-            //    addrequest.BloodGroup = "";
-            //    addrequest.RequestTypeID = request.RequestID;
-            //    addrequest.RequestType = "";
-            //    addrequest.RequestStatus = "";
-            //    addrequest.RequestStatusID = request.RequestStatusID;
-            //    addrequest.ExpectedDate = request.ExpectedDate;
-            //    addrequest.RequestDetails = request.RequestDetails;
+                addrequest.RequestID = request.RequestID;
+                addrequest.RequestDate = request.RequestDate.ToString("dd MMMM, yyyy");
+                addrequest.RequestByID = request.RequestID;
+                addrequest.AcceptedID = request.AcceptedID;
 
-            //    list.Add(addrequest);
-            //}
-            return View(requests);
+                if(request.AcceptedTypeID == 1) // Donor
+                {
+                    var getdonor = DB.DonorTables.Find(request.AcceptedID);
+                    addrequest.AcceptedFullName = getdonor.FullName;
+                    addrequest.ContactNo = getdonor.ContactNo;
+                    addrequest.Address = getdonor.Location;
+                }
+                else if (request.AcceptedTypeID == 2)  // BloodBank
+                {
+                    var getbloodbank = DB.BloodBankTables.Find(request.AcceptedID);
+                    addrequest.AcceptedFullName = getbloodbank.BloodBankName;
+                    addrequest.ContactNo = getbloodbank.PhoneNo;
+                    addrequest.Address = getbloodbank.Address;
+                }
+
+                addrequest.AcceptedTypeID = request.AcceptedTypeID;
+                addrequest.AcceptedType = request.AcceptedTypeTable.AcceptedType;
+                addrequest.RequiredBloodGroupID = request.RequiredBloodGroupID;
+                var bloodgroup = DB.BloodGroupsTables.Find(addrequest.RequiredBloodGroupID);
+                addrequest.BloodGroup = bloodgroup.BloodGroup;
+                addrequest.RequestTypeID = request.RequestID;
+                addrequest.RequestType = request.RequestTypeTable.RequestType;
+                addrequest.RequestStatus = request.RequestStatusTable.RequestStatus;
+                addrequest.RequestStatusID = request.RequestStatusID;
+                addrequest.ExpectedDate = request.ExpectedDate.ToString("dd MMMM, yyyy");
+                addrequest.RequestDetails = request.RequestDetails;
+
+                list.Add(addrequest);
+            }
+            return View(list);
+        }
+
+        public ActionResult CancelRequest(int? id)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            
+            var request = DB.RequestTables.Find(id);
+            request.RequestStatusID = 4;
+            DB.Entry(request).State = System.Data.Entity.EntityState.Modified;
+            DB.SaveChanges();
+
+            return RedirectToAction("ShowAllResults");
         }
     }
 }
