@@ -258,6 +258,21 @@ namespace UnityDonors.Controllers
             return RedirectToAction("ShowAllResults");
         }
 
+        public ActionResult CancelRequestByDonor(int? id)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            var request = DB.RequestTables.Find(id);
+            request.RequestStatusID = 4;
+            DB.Entry(request).State = System.Data.Entity.EntityState.Modified;
+            DB.SaveChanges();
+
+            return RedirectToAction("DonorRequests");
+        }
+
         public ActionResult AcceptRequest(int? id)
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
@@ -270,7 +285,7 @@ namespace UnityDonors.Controllers
             DB.Entry(request).State = System.Data.Entity.EntityState.Modified;
             DB.SaveChanges();
 
-            return RedirectToAction("ShowAllResults");
+            return RedirectToAction("DonorRequests");
         }
 
         public ActionResult DonorRequests()
@@ -354,6 +369,90 @@ namespace UnityDonors.Controllers
                 list.Add(addrequest);
             }
             return View(list);
+        }
+
+        public ActionResult CompleteRequest(int? id)
+        {
+            // for validation.
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            var request = DB.RequestTables.Find(id);
+
+            if (request.AcceptedTypeID == 1)  // Donor
+            {
+                var donor = DB.DonorTables.Find(request.AcceptedID);
+                donor.LastDonationID = DateTime.Now;    
+                DB.Entry(donor).State = System.Data.Entity.EntityState.Modified;
+                DB.SaveChanges();
+
+                request.RequestStatusID = 3;
+                DB.Entry(request).State = System.Data.Entity.EntityState.Modified;
+                DB.SaveChanges();
+
+                return RedirectToAction("ShowAllResults");
+            }
+
+            var bloodbank = DB.BloodBankTables.Find(request.AcceptedID);
+            var bloodbankstockMV = new BloodBankStockMV();
+
+            bloodbankstockMV.BloodBankStockID = request.RequestID;
+            bloodbankstockMV.BloodBankID = bloodbank.BloodBankID;
+            bloodbankstockMV.BloodGroupID = request.RequiredBloodGroupID;
+            bloodbankstockMV.BloodBank = bloodbank.BloodBankName;
+
+            var bloodgroup = DB.BloodGroupsTables.Find(request.RequiredBloodGroupID);
+            bloodbankstockMV.BloodGroup = bloodgroup.BloodGroup;
+            bloodbankstockMV.Quantity = 1;
+
+            return View(bloodbankstockMV);
+            
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CompleteRequest(BloodBankStockMV bloodBankStockMV)
+        {
+            // for validation.
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserName"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            try
+            {
+                var request = DB.RequestTables.Find(bloodBankStockMV.BloodBankStockID);
+
+                // updating stocks of a particular bloodgroup on BloodBank stock
+                var bloodstock = DB.BloodBankStockTables.Where(b => b.BloodBankID == bloodBankStockMV.BloodBankID
+                                 && b.BloodGroupID == bloodBankStockMV.BloodGroupID).FirstOrDefault();
+
+                if(bloodstock.Quantity < bloodBankStockMV.Quantity)
+                {
+                    ModelState.AddModelError(string.Empty, "Don't Have enough quantity. Available Quantity is "+bloodstock.Quantity+"!");
+                    return View(bloodBankStockMV);
+                }
+                bloodstock.Quantity = bloodstock.Quantity - bloodBankStockMV.Quantity;
+                DB.Entry(bloodstock).State = System.Data.Entity.EntityState.Modified;
+                DB.SaveChanges();
+
+                // Database Updation.
+                request.RequestStatusID = 3;
+                DB.Entry(request).State = System.Data.Entity.EntityState.Modified;
+                DB.SaveChanges();
+
+                return RedirectToAction("ShowAllResults");
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError(string.Empty, "Please Provide Quantity.");
+                return View(bloodBankStockMV);
+            }
+
+            //return View(bloodbankstockMV);
+
         }
     }
 }
