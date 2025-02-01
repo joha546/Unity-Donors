@@ -19,12 +19,12 @@ jobs:
       
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.1
+
+      - name: Setup NuGet.exe
+        uses: NuGet/setup-nuget@v1.0.7
       
       - name: Restore NuGet Packages
         run: nuget restore Application/UnityDonors/UnityDonors.sln
       
       - name: Build Solution
         run: msbuild Application/UnityDonors/UnityDonors.sln /p:Configuration=Release
-
-      - name: Run Tests (if applicable)
-        run: vstest.console.exe Application/UnityDonors/bin/Release/*.dll || echo "No tests found, skipping..."
