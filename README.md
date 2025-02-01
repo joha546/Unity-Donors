@@ -1,3 +1,4 @@
+[![Build and Test](https://github.com/joha546/Unity-Donors/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/joha546/Unity-Donors/actions/workflows/ci-cd.yml)
 # Unity Donors
 
 ## Overview
@@ -175,5 +176,5 @@ This project is licensed under the [MIT License](LICENSE).
 ## Contact
 
 For questions or support, contact the project maintainer:
-- **Md Khaled Bin Joha** - [GitHub](https://github.com/joha546) | [LinkedIn](https://www.linkedin.com/in/joha546/)
+- **Md Khaled Bin Joha** - [GitHub](https://github.com/joha546) | [LinkedIn](https://www.linkedin.com/in/mdkhaledbinjoha/)
 
