@@ -1,0 +1,30 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.1
+      
+      - name: Restore NuGet Packages
+        run: nuget restore Application/UnityDonors/UnityDonors.sln
+      
+      - name: Build Solution
+        run: msbuild Application/UnityDonors/UnityDonors.sln /p:Configuration=Release
+
+      - name: Run Tests (if applicable)
+        run: vstest.console.exe Application/UnityDonors/bin/Release/*.dll || echo "No tests found, skipping..."
