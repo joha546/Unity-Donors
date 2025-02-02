@@ -102,7 +102,7 @@ namespace UnityDonors.Controllers
                                 Session["CityID"] = donor.CityID;
                                 Session["City"] = donor.CityTable.City;
 
-                                return RedirectToAction("Finder", "DonorRequests");
+                                return RedirectToAction("DonorRequests", "Finder");
                             }
                             else
                             {
@@ -128,7 +128,8 @@ namespace UnityDonors.Controllers
                                 Session["RegistrationDate"] = seeker.RegistrationDate;
                                 Session["Address"] = seeker.Address;
 
-                                return RedirectToAction("Finder", "ShowAllResults");
+                                return RedirectToAction("ShowAllResults", "Finder");
+                                
                             }
                             else
                             {
@@ -150,7 +151,8 @@ namespace UnityDonors.Controllers
                                 Session["CityID"] = hospital.CityID;
                                 Session["City"] = hospital.CityTable.City;
 
-                                return RedirectToAction("Finder", "ShowAllResults");
+                                return RedirectToAction("ShowAllResults", "Finder");
+                                
                             }
                             else
                             {
@@ -187,7 +189,8 @@ namespace UnityDonors.Controllers
                                 Session["CityID"] = bloodbank.CityID;
                                 Session["City"] = bloodbank.CityTable.City;
 
-                                return RedirectToAction("BloodBank", "BloodBankStock");
+                                
+                                return RedirectToAction("BloodBankStock", "BloodBank");
                             }
                         }
                         else
